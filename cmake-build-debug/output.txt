@@ -1,0 +1,4 @@
+1. red circle: x0 = 1; y0 = 2; radius = 4.5; parameter = 28.2735;
+2. blue rectangle: x1 = 2; y1 = 5; x2 = 6; y2 = 3; parameter = 12;
+3. yellow circle: x0 = 2; y0 = 1; radius = 0.1; parameter = 0.6283;
+4. purple circle: x0 = 0; y0 = 0; radius = 0.5; parameter = 3.1415;

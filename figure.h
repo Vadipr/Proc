@@ -21,6 +21,7 @@ namespace figure_space {
         PURPLE = 6
     };
 
+    const double PI = 3.1415;
 
     // Перечисляемый тип, определяющий тип фигуры
     enum eFigure {
@@ -93,6 +94,9 @@ namespace figure_space {
     // Чтение прямоугольника
     void In(figure_rectangle &fr, std::ifstream &ifstr);
 
+    double Calculate(figure &f);
+    double Calculate(figure_circle &fc);
+    double Calculate(figure_rectangle &fr);
     // Запись в файл
     void Out(figure &f, std::ofstream &ofstr);
     void Out(figure_circle &fc, std::ofstream &ofstr);

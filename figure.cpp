@@ -57,7 +57,8 @@ namespace figure_space {
         ofstr << "circle: ";
         ofstr << "x0 = " << fc.center_x << "; ";
         ofstr << "y0 = " << fc.center_y << "; ";
-        ofstr << "radius = " << fc.radius << ";\n";
+        ofstr << "radius = " << fc.radius << "; ";
+        ofstr << "parameter = " << Calculate(fc) << ";\n";
     }
 
     void Out(figure_rectangle &fr, std::ofstream &ofstr) {
@@ -65,7 +66,8 @@ namespace figure_space {
         ofstr << "x1 = " << fr.bottom_x << "; ";
         ofstr << "y1 = " << fr.bottom_y << "; ";
         ofstr << "x2 = " << fr.upper_x << "; ";
-        ofstr << "y2 = " << fr.upper_y << ";\n";
+        ofstr << "y2 = " << fr.upper_y << "; ";
+        ofstr << "parameter = " << Calculate(fr) << ";\n";
     }
 
     void Out(figure_container &cont, std::ofstream &ofstr) {
@@ -150,6 +152,25 @@ namespace figure_space {
         if(!ifstr.eof()) { // Считаем переход на новую строку
             ifstr.get();
         }
+    }
+
+    double Calculate(figure &f) {
+        switch(f.figure_type) { // Относительно типа объекта вызываем Out
+            case eFigure::CIRCLE:
+                return Calculate(f.fc);
+            case eFigure::RECTANGLE:
+                return Calculate(f.fr);
+        }
+    }
+
+    double figure_space::Calculate(figure_circle &fc) {
+        return 2*PI*fc.radius;
+    }
+
+    double figure_space::Calculate(figure_rectangle &fr) {
+        int width = fr.bottom_x - fr.upper_x;
+        int height = fr.upper_y - fr.bottom_y;
+        return std::abs(2*width) + std::abs(2*height);
     }
 
 }

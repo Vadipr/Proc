@@ -42,6 +42,7 @@ namespace figure_space {
     }
 
     void figure_space::Out(figure &f, std::ofstream &ofstr) {
+        ofstr << "(Density = " << f.density << ") ";
         ofstr << color_strings[f.figure_color] << " ";
         switch(f.figure_type) { // Относительно типа объекта вызываем Out
             case eFigure::CIRCLE:
@@ -110,6 +111,10 @@ namespace figure_space {
                 return nullptr; // Произошла ошибка при вводе
             }
         }
+        // ВВОД ПЛОТНОСТИ
+        double dens;
+        ifstr >> dens;
+        res->density = dens;
         // ВВОД ОСТАЛЬНЫХ ХАРАКТЕРИСТИК
         switch (res->figure_type) {
             case eFigure::CIRCLE:

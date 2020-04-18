@@ -53,6 +53,7 @@ namespace figure_space {
             figure_circle fc;
             figure_rectangle fr;
         };
+        double density;
         eFigure figure_type; // Тип объекта
         Color figure_color; // Цвет
         figure *next; // Следующий элемент в списке

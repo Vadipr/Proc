@@ -94,8 +94,9 @@ namespace figure_space {
     void In(figure_rectangle &fr, std::ifstream &ifstr);
 
     // Запись в файл
+    void Out(figure &f, std::ofstream &ofstr);
     void Out(figure_circle &fc, std::ofstream &ofstr);
-    void Out(figure_circle &fr, std::ofstream &ofstr);
+    void Out(figure_rectangle &fr, std::ofstream &ofstr);
     void Out(figure_container &cont, std::ofstream &ofstr);
 }
 

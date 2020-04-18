@@ -41,6 +41,18 @@ namespace figure_space {
         cont.begin = cont.end = nullptr;
     }
 
+    void figure_space::Out(figure &f, std::ofstream &ofstr) {
+        ofstr << color_strings[f.figure_color] << " ";
+        switch(f.figure_type) { // Относительно типа объекта вызываем Out
+            case eFigure::CIRCLE:
+                Out(f.fc, ofstr);
+                break;
+            case eFigure::RECTANGLE:
+                Out(f.fr, ofstr);
+                break;
+        }
+    }
+
     void Out(figure_circle &fc, std::ofstream &ofstr) {
         ofstr << "circle: ";
         ofstr << "x0 = " << fc.center_x << "; ";
@@ -65,15 +77,8 @@ namespace figure_space {
         for(figure *it = cont.begin; it != nullptr; it = it->next) {
             index++;
             // Вывод номера и цвета
-            ofstr << index << ". " << color_strings[it->figure_color] << " ";
-            switch(it->figure_type) { // Относительно типа объекта вызываем Out
-                case eFigure::CIRCLE:
-                    Out(it->fc, ofstr);
-                    break;
-                case eFigure::RECTANGLE:
-                    Out(it->fr, ofstr);
-                    break;
-            }
+            ofstr << index << ". ";
+            Out(*it, ofstr);
         }
         std::cout << "Successfully printed to file." << std::endl;
     }
@@ -146,4 +151,5 @@ namespace figure_space {
             ifstr.get();
         }
     }
+
 }

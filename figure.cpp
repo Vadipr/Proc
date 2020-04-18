@@ -10,19 +10,20 @@ namespace figure_space {
         // Чтение до end of file
         while (!ifstr.eof()) {
             // Считываем новый элемент
-            figure *new_element = In(ifstr);
-            if (new_element == nullptr) { // Если произошла ошибка при считывании
+            Node * new_node = new Node;
+            new_node->f = In(ifstr);
+            if (new_node->f == nullptr) { // Если произошла ошибка при считывании
                 std::cout << "Can't read file, because it has wrong structure." << std::endl;
                 // Очищаем уже заполненные элементы списка
                 Clear(cont);
                 return;
             }
             // Добавляем в список считанный элемент
-            Append(cont, new_element);
+            Append(cont, new_node);
         }
     }
 
-    void Append(figure_container &cont, figure *new_element) {
+    void Append(figure_container &cont, Node *new_element) {
         if (cont.begin == nullptr) { // Если список пустой
             cont.begin = cont.end = new_element;
         } else {
@@ -33,22 +34,22 @@ namespace figure_space {
     }
 
     void Clear(figure_container &cont) {
-        figure *it_next = nullptr; // Храним следующий элемент, т.к. будем удалять элементы в цикле
-        for (figure *it = cont.begin; it != nullptr; it = it_next) {
+        Node *it_next = nullptr; // Храним следующий элемент, т.к. будем удалять элементы в цикле
+        for (Node *it = cont.begin; it != nullptr; it = it_next) {
             it_next = it->next; // Сохраняем следующий элемент
             delete it; // Удаляем элемент
         }
         cont.begin = cont.end = nullptr;
     }
 
-    void figure_space::Out(figure &f, std::ofstream &ofstr) {
-        ofstr << color_strings[f.figure_color] << " ";
-        switch(f.figure_type) { // Относительно типа объекта вызываем Out
+    void figure_space::Out(figure *f, std::ofstream &ofstr) {
+        ofstr << color_strings[f->figure_color] << " ";
+        switch(f->figure_type) { // Относительно типа объекта вызываем Out
             case eFigure::CIRCLE:
-                Out(f.fc, ofstr);
+                Out(f->fc, ofstr);
                 break;
             case eFigure::RECTANGLE:
-                Out(f.fr, ofstr);
+                Out(f->fr, ofstr);
                 break;
         }
     }
@@ -76,11 +77,11 @@ namespace figure_space {
             ofstr << "Empty container. " << std::endl;
             return;
         }
-        for(figure *it = cont.begin; it != nullptr; it = it->next) {
+        for(Node *it = cont.begin; it != nullptr; it = it->next) {
             index++;
             // Вывод номера и цвета
             ofstr << index << ". ";
-            Out(*it, ofstr);
+            Out(it->f, ofstr);
         }
         std::cout << "Successfully printed to file." << std::endl;
     }
@@ -154,12 +155,12 @@ namespace figure_space {
         }
     }
 
-    double Calculate(figure &f) {
-        switch(f.figure_type) { // Относительно типа объекта вызываем Out
+    double Calculate(figure *f) {
+        switch(f->figure_type) { // Относительно типа объекта вызываем Out
             case eFigure::CIRCLE:
-                return Calculate(f.fc);
+                return Calculate(f->fc);
             case eFigure::RECTANGLE:
-                return Calculate(f.fr);
+                return Calculate(f->fr);
         }
     }
 
@@ -171,6 +172,23 @@ namespace figure_space {
         int width = fr.bottom_x - fr.upper_x;
         int height = fr.upper_y - fr.bottom_y;
         return std::abs(2*width) + std::abs(2*height);
+    }
+
+    void Sort(figure_container &cont) {
+        for(Node *it = cont.begin; (it) && (it->next); it = it->next) {
+            for (Node *jt = it->next; jt; jt = jt->next) {
+                if(Comparator(it->f, jt->f)) {
+                    figure* temp = it->f;
+                    it->f = jt->f;
+                    jt->f = temp;
+                }
+                std::cout << Calculate(it->f) << " vs " << Calculate(jt->f) << std::endl;
+            }
+        }
+    }
+
+    bool Comparator(figure *first, figure *second) {
+        return Calculate(first) < Calculate(second);
     }
 
 }

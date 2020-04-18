@@ -17,6 +17,9 @@ int main(int argc, char* argv[]) {
     Init(c);
     In(c, ifst);
     Out(c, ofst);
+    ofst << "Sorted:\n";
+    Sort(c);
+    Out(c, ofst);
     cout << "Program ended"<< endl;
     return 0;
 }

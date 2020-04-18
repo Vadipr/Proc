@@ -56,16 +56,20 @@ namespace figure_space {
         };
         eFigure figure_type; // Тип объекта
         Color figure_color; // Цвет
-        figure *next; // Следующий элемент в списке
+    };
+
+    struct Node {
+        Node *next; // Следующий элемент в списке
+        figure *f;
     };
 
     // Контейнер на основе однонаправленного линейного списка.
     // В списке находятся элементы, каждый из них (кроме последнего) имеет ссылку на следующего.
     struct figure_container {
         // Начальный элемент
-        figure *begin;
+        Node *begin;
         // Последний элемент
-        figure *end;
+        Node *end;
     };
 
     /// Объявление функций:
@@ -77,7 +81,7 @@ namespace figure_space {
     void Clear(figure_container &cont);
 
     // Добавить элемент в список
-    void Append(figure_container &cont, figure *new_element);
+    void Append(figure_container &cont, Node *new_element);
 
     // ЧТЕНИЕ ИЗ ФАЙЛА
     // Требования ко входному файлу:
@@ -94,11 +98,14 @@ namespace figure_space {
     // Чтение прямоугольника
     void In(figure_rectangle &fr, std::ifstream &ifstr);
 
-    double Calculate(figure &f);
+    bool Comparator(figure *first, figure *second);
+
+    void Sort(figure_container &cont);
+    double Calculate(figure *f);
     double Calculate(figure_circle &fc);
     double Calculate(figure_rectangle &fr);
     // Запись в файл
-    void Out(figure &f, std::ofstream &ofstr);
+    void Out(figure *f, std::ofstream &ofstr);
     void Out(figure_circle &fc, std::ofstream &ofstr);
     void Out(figure_rectangle &fr, std::ofstream &ofstr);
     void Out(figure_container &cont, std::ofstream &ofstr);

@@ -68,6 +68,23 @@ namespace figure_space {
         ofstr << "y2 = " << fr.upper_y << ";\n";
     }
 
+    void figure_space::Out(figure_container &cont, std::ofstream &ofstr, eFigure type) {
+        int index = 0;
+        ofstr << "Ignoring type: " << type << std::endl;
+        if(cont.begin == nullptr) { // Если пустой контейнер
+            ofstr << "Empty container. " << std::endl;
+            return;
+        }
+        for(figure *it = cont.begin; it != nullptr; it = it->next) {
+            if(type == it->figure_type) continue;
+            index++;
+            // Вывод номера и цвета
+            ofstr << index << ". ";
+            Out(*it, ofstr);
+        }
+        std::cout << "Successfully printed to file." << std::endl;
+    }
+
     void Out(figure_container &cont, std::ofstream &ofstr) {
         int index = 0;
         if(cont.begin == nullptr) { // Если пустой контейнер

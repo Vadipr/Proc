@@ -17,6 +17,8 @@ int main(int argc, char* argv[]) {
     Init(c);
     In(c, ifst);
     Out(c, ofst);
+    Out(c, ofst, eFigure::CIRCLE);
+    Out(c, ofst, eFigure::RECTANGLE);
     cout << "Program ended"<< endl;
     return 0;
 }

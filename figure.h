@@ -25,7 +25,8 @@ namespace figure_space {
     // Перечисляемый тип, определяющий тип фигуры
     enum eFigure {
         CIRCLE = 1,
-        RECTANGLE = 2
+        RECTANGLE = 2,
+        TRIANGLE = 3
     };
 
     // Структура, описывающая круг
@@ -47,11 +48,20 @@ namespace figure_space {
         int bottom_y;
     };
 
+    // Структура, описывающая треугольник
+    struct figure_triangle {
+        // Три точки, задающие целочисленные координаты вершин
+        int x1, y1;
+        int x2, y2;
+        int x3, y3;
+    };
+
     // Структура, объединяющая все виды фигур
     struct figure {
         union { // Обобщение, построенное на основе непосредственного включения специализаций
             figure_circle fc;
             figure_rectangle fr;
+            figure_triangle ft;
         };
         eFigure figure_type; // Тип объекта
         Color figure_color; // Цвет
@@ -92,11 +102,14 @@ namespace figure_space {
     void In(figure_circle &fc, std::ifstream &ifstr);
     // Чтение прямоугольника
     void In(figure_rectangle &fr, std::ifstream &ifstr);
+    // Чтение треугольника
+    void In(figure_triangle &ft, std::ifstream &ifstr);
 
     // Запись в файл
     void Out(figure &f, std::ofstream &ofstr);
     void Out(figure_circle &fc, std::ofstream &ofstr);
     void Out(figure_rectangle &fr, std::ofstream &ofstr);
+    void Out(figure_triangle &ft, std::ofstream &ofstr);
     void Out(figure_container &cont, std::ofstream &ofstr);
 }
 

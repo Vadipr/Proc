@@ -51,6 +51,9 @@ namespace figure_space {
             case eFigure::RECTANGLE:
                 Out(f->fr, ofstr);
                 break;
+            case eFigure::TRIANGLE:
+                Out(f.ft, ofstr);
+                break;
         }
     }
 
@@ -69,6 +72,16 @@ namespace figure_space {
         ofstr << "x2 = " << fr.upper_x << "; ";
         ofstr << "y2 = " << fr.upper_y << "; ";
         ofstr << "parameter = " << Calculate(fr) << ";\n";
+    }
+
+    void Out(figure_triangle &ft, std::ofstream &ofstr) {
+        ofstr << "triangle: ";
+        ofstr << "x1 = " << ft.x1 << "; ";
+        ofstr << "y1 = " << ft.y1 << "; ";
+        ofstr << "x2 = " << ft.x2 << "; ";
+        ofstr << "y2 = " << ft.y2 << "; ";
+        ofstr << "x3 = " << ft.x3 << "; ";
+        ofstr << "y3 = " << ft.y3 << ";\n";
     }
 
     void Out(figure_container &cont, std::ofstream &ofstr) {
@@ -97,6 +110,8 @@ namespace figure_space {
             res->figure_type = eFigure::CIRCLE;
         } else if (readLine == "rectangle") { // Если вводится прямоугольник
             res->figure_type = eFigure::RECTANGLE;
+        } else if (readLine == "triangle") { // Если вводится треугольник
+            res->figure_type = eFigure::TRIANGLE;
         } else {
             delete res;
             return nullptr; // Произошла ошибка при вводе
@@ -121,6 +136,9 @@ namespace figure_space {
             case eFigure::RECTANGLE:
                 In(res->fr, ifstr);
                 break;
+            case eFigure::TRIANGLE:
+                In(res->ft, ifstr);
+                break;
         }
         return res;
     }
@@ -137,6 +155,16 @@ namespace figure_space {
         fc.center_x = _center_x;
         fc.center_y = _center_y;
         fc.radius = _radius;
+        if(!ifstr.eof()) { // Считаем переход на новую строку
+            ifstr.get();
+        }
+    }
+
+
+    void In(figure_triangle &ft, std::ifstream &ifstr) {
+        ifstr >> ft.x1 >> ft.y1;
+        ifstr >> ft.x2 >> ft.y2;
+        ifstr >> ft.x3 >> ft.y3;
         if(!ifstr.eof()) { // Считаем переход на новую строку
             ifstr.get();
         }

@@ -52,7 +52,7 @@ namespace figure_space {
                 Out(f->fr, ofstr);
                 break;
             case eFigure::TRIANGLE:
-                Out(f.ft, ofstr);
+                Out(f->ft, ofstr);
                 break;
         }
     }

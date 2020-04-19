@@ -124,6 +124,7 @@ namespace figure_space {
     void Out(figure_rectangle &fr, std::ofstream &ofstr);
     void Out(figure_triangle &ft, std::ofstream &ofstr);
     void Out(figure_container &cont, std::ofstream &ofstr);
+    void Out(figure_container &cont, std::ofstream &ofstr, eFigure type);
 }
 
 #endif //PROCEDURAL_FIGURE_H

@@ -6,6 +6,14 @@
 Sorted:
 1. red (Density = 0.45) circle: x0 = 1; y0 = 2; radius = 4.5; parameter = 28.2735;
 2. blue (Density = 0.001) rectangle: x1 = 2; y1 = 5; x2 = 6; y2 = 3; parameter = 12;
+3. red (Density = 45) triangle: x1 = 1; y1 = 2; x2 = 2; y2 = 2; x3 = 1; y3 = 6; parameter = 9.12311;
+4. purple (Density = 5.123) circle: x0 = 0; y0 = 0; radius = 0.5; parameter = 3.1415;
+5. yellow (Density = 15.5) circle: x0 = 2; y0 = 1; radius = 0.1; parameter = 0.6283;
+Ignoring type: 1
+1. blue (Density = 0.001) rectangle: x1 = 2; y1 = 5; x2 = 6; y2 = 3; parameter = 12;
+2. red (Density = 45) triangle: x1 = 1; y1 = 2; x2 = 2; y2 = 2; x3 = 1; y3 = 6; parameter = 9.12311;
+Ignoring type: 2
+1. red (Density = 0.45) circle: x0 = 1; y0 = 2; radius = 4.5; parameter = 28.2735;
+2. red (Density = 45) triangle: x1 = 1; y1 = 2; x2 = 2; y2 = 2; x3 = 1; y3 = 6; parameter = 9.12311;
 3. purple (Density = 5.123) circle: x0 = 0; y0 = 0; radius = 0.5; parameter = 3.1415;
 4. yellow (Density = 15.5) circle: x0 = 2; y0 = 1; radius = 0.1; parameter = 0.6283;
-5. red (Density = 45) triangle: x1 = 1; y1 = 2; x2 = 2; y2 = 2; x3 = 1; y3 = 6; parameter = 9.12311;

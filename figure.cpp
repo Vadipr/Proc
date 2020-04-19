@@ -87,6 +87,23 @@ namespace figure_space {
 
     }
 
+    void figure_space::Out(figure_container &cont, std::ofstream &ofstr, eFigure type) {
+        int index = 0;
+        ofstr << "Ignoring type: " << type << std::endl;
+        if(cont.begin == nullptr) { // Если пустой контейнер
+            ofstr << "Empty container. " << std::endl;
+            return;
+        }
+        for(Node *it = cont.begin; it != nullptr; it = it->next) {
+            if(type == it->f->figure_type) continue;
+            index++;
+            // Вывод номера и цвета
+            ofstr << index << ". ";
+            Out(it->f, ofstr);
+        }
+        std::cout << "Successfully printed to file." << std::endl;
+    }
+
     void Out(figure_container &cont, std::ofstream &ofstr) {
         int index = 0;
         if(cont.begin == nullptr) { // Если пустой контейнер
@@ -196,6 +213,8 @@ namespace figure_space {
                 return Calculate(f->fc);
             case eFigure::RECTANGLE:
                 return Calculate(f->fr);
+            case eFigure::TRIANGLE:
+                return Calculate(f->ft);
         }
     }
 

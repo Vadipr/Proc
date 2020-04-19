@@ -64,6 +64,7 @@ namespace figure_space {
             figure_rectangle fr;
             figure_triangle ft;
         };
+        double density;
         eFigure figure_type; // Тип объекта
         Color figure_color; // Цвет
     };
@@ -116,6 +117,7 @@ namespace figure_space {
     double Calculate(figure *f);
     double Calculate(figure_circle &fc);
     double Calculate(figure_rectangle &fr);
+    double Calculate(figure_triangle &fr);
     // Запись в файл
     void Out(figure *f, std::ofstream &ofstr);
     void Out(figure_circle &fc, std::ofstream &ofstr);

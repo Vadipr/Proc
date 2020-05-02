@@ -46,6 +46,7 @@ namespace figure_space {
 
     void figure_space::Out(figure *f, std::ofstream &ofstr) {
         ofstr << color_strings[f->figure_color] << " ";
+        ofstr << "(Density = " << f->density << ") ";
         switch(f->figure_type) { // Относительно типа объекта вызываем Out
             case eFigure::CIRCLE:
                 Out(f->fc, ofstr);
@@ -83,7 +84,26 @@ namespace figure_space {
         ofstr << "x2 = " << ft.x2 << "; ";
         ofstr << "y2 = " << ft.y2 << "; ";
         ofstr << "x3 = " << ft.x3 << "; ";
-        ofstr << "y3 = " << ft.y3 << ";\n";
+        ofstr << "y3 = " << ft.y3 << "; ";
+        ofstr << "parameter = " << Calculate(ft) << ";\n";
+
+    }
+
+    void figure_space::Out(figure_container &cont, std::ofstream &ofstr, eFigure type) {
+        int index = 0;
+        ofstr << "Ignoring type: " << type << std::endl;
+        if(cont.begin == nullptr) { // Если пустой контейнер
+            ofstr << "Empty container. " << std::endl;
+            return;
+        }
+        for(Node *it = cont.begin; it != nullptr; it = it->next) {
+            if(type == it->f->figure_type) continue;
+            index++;
+            // Вывод номера и цвета
+            ofstr << index << ". ";
+            Out(it->f, ofstr);
+        }
+        std::cout << "Successfully printed to file." << std::endl;
     }
 
     void Out(figure_container &cont, std::ofstream &ofstr) {
@@ -131,6 +151,10 @@ namespace figure_space {
                 return nullptr; // Произошла ошибка при вводе
             }
         }
+        // ВВОД ПЛОТНОСТИ
+        double dens;
+        ifstr >> dens;
+        res->density = dens;
         // ВВОД ОСТАЛЬНЫХ ХАРАКТЕРИСТИК
         switch (res->figure_type) {
             case eFigure::CIRCLE:
@@ -192,6 +216,8 @@ namespace figure_space {
                 return Calculate(f->fc);
             case eFigure::RECTANGLE:
                 return Calculate(f->fr);
+            case eFigure::TRIANGLE:
+                return Calculate(f->ft);
         }
     }
 
@@ -220,6 +246,13 @@ namespace figure_space {
 
     bool Comparator(figure *first, figure *second) {
         return Calculate(first) < Calculate(second);
+    }
+
+    double figure_space::Calculate(figure_triangle &fr) {
+        double a = sqrt((fr.x1-fr.x2)*(fr.x1-fr.x2) + (fr.y1-fr.y2)*(fr.y1-fr.y2));
+        double b = sqrt((fr.x1-fr.x3)*(fr.x1-fr.x3) + (fr.y1-fr.y3)*(fr.y1-fr.y3));
+        double c = sqrt((fr.x3-fr.x2)*(fr.x3-fr.x2) + (fr.y3-fr.y2)*(fr.y3-fr.y2));
+        return a+b+c;
     }
 
 }

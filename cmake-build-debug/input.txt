@@ -1,12 +1,20 @@
 circle
 red
+0.45
 1 2 4.5
 rectangle
 blue
+0.001
 2 5 6 3
 circle
 yellow
+15.5
 2 1 0.1
 circle
 purple
+5.123
 0 0 0.5
+triangle
+red
+45
+1 2 2 2 1 6

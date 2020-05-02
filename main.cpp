@@ -26,6 +26,8 @@ int main(int argc, char* argv[]) {
     ofst << "Sorted:\n";
     Sort(c);
     Out(c, ofst);
+    Out(c, ofst, eFigure::CIRCLE);
+    Out(c, ofst, eFigure::RECTANGLE);
     cout << "Program ended"<< endl;
     return 0;
 }

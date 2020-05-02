@@ -18,12 +18,14 @@ namespace figure_space {
                 Clear(cont);
                 return;
             }
+
             // Добавляем в список считанный элемент
             Append(cont, new_node);
         }
     }
 
     void Append(figure_container &cont, Node *new_element) {
+        cont.size++;
         if (cont.begin == nullptr) { // Если список пустой
             cont.begin = cont.end = new_element;
         } else {
@@ -52,7 +54,7 @@ namespace figure_space {
                 Out(f->fr, ofstr);
                 break;
             case eFigure::TRIANGLE:
-                Out(f.ft, ofstr);
+                Out(f->ft, ofstr);
                 break;
         }
     }
@@ -116,6 +118,7 @@ namespace figure_space {
             delete res;
             return nullptr; // Произошла ошибка при вводе
         }
+
         // ВВОД ЦВЕТА ФИГУРЫ
         ifstr.getline(chars, 255);
         readLine = std::string(chars); // Переводим в строку

@@ -118,7 +118,9 @@ namespace figure_space {
             delete res;
             return nullptr; // Произошла ошибка при вводе
         }
-
+        if(ifstr.eof()) {
+            return nullptr;
+        }
         // ВВОД ЦВЕТА ФИГУРЫ
         ifstr.getline(chars, 255);
         readLine = std::string(chars); // Переводим в строку
@@ -154,7 +156,18 @@ namespace figure_space {
     void In(figure_circle &fc, std::ifstream &ifstr) {
         int _center_x, _center_y;
         double _radius;
-        ifstr >> _center_x >> _center_y >> _radius;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(_center_x, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(_center_y, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        ifstr >> _radius;
         fc.center_x = _center_x;
         fc.center_y = _center_y;
         fc.radius = _radius;
@@ -165,9 +178,31 @@ namespace figure_space {
 
 
     void In(figure_triangle &ft, std::ifstream &ifstr) {
-        ifstr >> ft.x1 >> ft.y1;
-        ifstr >> ft.x2 >> ft.y2;
-        ifstr >> ft.x3 >> ft.y3;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(ft.x1, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(ft.y1, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(ft.x2, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(ft.y2, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(ft.x3, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(ft.y3, ifstr)) return;
+
         if(!ifstr.eof()) { // Считаем переход на новую строку
             ifstr.get();
         }
@@ -176,7 +211,22 @@ namespace figure_space {
     void In(figure_rectangle &fr, std::ifstream &ifstr) {
         int _bottom_x, _bottom_y;
         int _upper_x, _upper_y;
-        ifstr >> _bottom_x >> _bottom_y >> _upper_x >> _upper_y;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(_bottom_x, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(_bottom_y, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(_upper_x, ifstr)) return;
+        if(ifstr.eof()) {
+            return;
+        }
+        if(!readInt(_upper_y, ifstr)) return;
         fr.bottom_x = _bottom_x;
         fr.bottom_y = _bottom_y;
         fr.upper_x = _upper_x;
@@ -220,6 +270,18 @@ namespace figure_space {
 
     bool Comparator(figure *first, figure *second) {
         return Calculate(first) < Calculate(second);
+    }
+
+    bool readInt(int &buffer, std::ifstream &ifstr) {
+        char str[255];
+        ifstr >> str;
+        for(int i = 0; i < 255; i++) {
+            if(str[i] == 0) break;
+            bool fail = str[i] < '0' || str[i] > '9';
+            if(fail) return false;
+        }
+        buffer = atoi(str);
+        return true;
     }
 
 }

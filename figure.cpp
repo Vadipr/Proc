@@ -152,4 +152,38 @@ namespace figure_space {
         }
     }
 
+    void MultiMethod(figure_container &cont, std::ofstream &ofstr) {
+        ofstr << "Writing multimethod" << std::endl;
+        for(figure *it = cont.begin; (it) && (it->next); it = it->next) {
+            for (figure *jt = cont.begin->next; jt; jt = jt->next) {
+                switch(it->figure_type) {
+                    case CIRCLE:
+                        switch(jt->figure_type) {
+                            case CIRCLE:
+                                ofstr << ": CIRCLE and CIRCLE";
+                                break;
+                            case RECTANGLE:
+                                ofstr << ": CIRCLE and RECTANGLE";
+                                break;
+                        }
+                        break;
+                    case RECTANGLE:
+                        switch(jt->figure_type) {
+                            case CIRCLE:
+                                ofstr << ": RECTANGLE and CIRCLE";
+                                break;
+                            case RECTANGLE:
+                                ofstr << ": RECTANGLE and RECTANGLE";
+                                break;
+                        }
+                        break;
+                }
+                ofstr << std::endl;
+                Out(*it, ofstr);
+                Out(*jt, ofstr);
+                ofstr << "______________________" << std::endl;
+            }
+        }
+    }
+
 }

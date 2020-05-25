@@ -98,6 +98,7 @@ namespace figure_space {
     void Out(figure_circle &fc, std::ofstream &ofstr);
     void Out(figure_rectangle &fr, std::ofstream &ofstr);
     void Out(figure_container &cont, std::ofstream &ofstr);
+    void MultiMethod(figure_container &cont, std::ofstream &ofstr);
 }
 
 #endif //PROCEDURAL_FIGURE_H

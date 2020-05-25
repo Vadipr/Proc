@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
     Init(c);
     In(c, ifst);
     Out(c, ofst);
+    MultiMethod(c, ofst);
     cout << "Program ended"<< endl;
     return 0;
 }

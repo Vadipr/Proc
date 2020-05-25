@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+//#include <gtest/gtest.h>
 #include "figure.h"
 using namespace std;
 using namespace figure_space;
@@ -6,8 +6,8 @@ using namespace figure_space;
 int main(int argc, char* argv[]) {
     // Если некорректно введены аргументы
     if(argc == 2) {
-        testing::InitGoogleTest();
-        RUN_ALL_TESTS();
+        //testing::InitGoogleTest();
+        //RUN_ALL_TESTS();
         return 0;
     } else
     if(argc !=3) {
@@ -33,8 +33,7 @@ int main(int argc, char* argv[]) {
     In(c, ifst);
     Out(c, ofst);
     ofst << "Sorted:\n";
-    Sort(c);
-    Out(c, ofst);
+    MultiMethod(c, ofst);
     cout << "Program ended"<< endl;
     return 0;
 }

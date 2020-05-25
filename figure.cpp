@@ -46,6 +46,7 @@ namespace figure_space {
 
     void figure_space::Out(figure *f, std::ofstream &ofstr) {
         ofstr << color_strings[f->figure_color] << " ";
+        ofstr << "(Density = " << f->density << ") ";
         switch(f->figure_type) { // Относительно типа объекта вызываем Out
             case eFigure::CIRCLE:
                 Out(f->fc, ofstr);
@@ -133,6 +134,10 @@ namespace figure_space {
                 return nullptr; // Произошла ошибка при вводе
             }
         }
+        // ВВОД ПЛОТНОСТИ
+        double dens;
+        ifstr >> dens;
+        res->density = dens;
         // ВВОД ОСТАЛЬНЫХ ХАРАКТЕРИСТИК
         switch (res->figure_type) {
             case eFigure::CIRCLE:
@@ -146,6 +151,7 @@ namespace figure_space {
                 break;
         }
         return res;
+
     }
 
     void Init(figure_container &to_init) {
@@ -154,17 +160,18 @@ namespace figure_space {
     }
 
     void In(figure_circle &fc, std::ifstream &ifstr) {
+
         int _center_x, _center_y;
         double _radius;
         if(ifstr.eof()) {
             return;
         }
-        if(!readInt(_center_x, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> _center_x;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(_center_y, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> _center_y;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
         ifstr >> _radius;
@@ -181,30 +188,29 @@ namespace figure_space {
         if(ifstr.eof()) {
             return;
         }
-        if(!readInt(ft.x1, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> ft.x1;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(ft.y1, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> ft.y1;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(ft.x2, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> ft.x2;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(ft.y2, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> ft.y2;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(ft.x3, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> ft.x3;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(ft.y3, ifstr)) return;
-
-        if(!ifstr.eof()) { // Считаем переход на новую строку
-            ifstr.get();
+        ifstr >> ft.y3;
+        if(ifstr.fail() || ifstr.eof()) {
+            return;
         }
     }
 
@@ -214,19 +220,24 @@ namespace figure_space {
         if(ifstr.eof()) {
             return;
         }
-        if(!readInt(_bottom_x, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> _bottom_x;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(_bottom_y, ifstr)) return;
-        if(ifstr.eof()) {
+        ifstr >> _bottom_y;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(_upper_x, ifstr)) return;
-        if(ifstr.eof()) {
+
+        ifstr >> _upper_x;
+        if(ifstr.fail() || ifstr.eof()) {
             return;
         }
-        if(!readInt(_upper_y, ifstr)) return;
+
+        ifstr >> _upper_y;
+        if(ifstr.fail() || ifstr.eof()) {
+            return;
+        }
         fr.bottom_x = _bottom_x;
         fr.bottom_y = _bottom_y;
         fr.upper_x = _upper_x;
@@ -272,16 +283,57 @@ namespace figure_space {
         return Calculate(first) < Calculate(second);
     }
 
-    bool readInt(int &buffer, std::ifstream &ifstr) {
-        char str[255];
-        ifstr >> str;
-        for(int i = 0; i < 255; i++) {
-            if(str[i] == 0) break;
-            bool fail = str[i] < '0' || str[i] > '9';
-            if(fail) return false;
+    void MultiMethod(figure_container &cont, std::ofstream &ofstr) {
+        ofstr << "Writing multimethod" << std::endl;
+        for(Node *it = cont.begin; (it) && (it->next); it = it->next) {
+            for (Node *jt = cont.begin->next; jt; jt = jt->next) {
+                switch(it->f->figure_type) {
+                    case CIRCLE:
+                        switch(jt->f->figure_type) {
+                            case CIRCLE:
+                                ofstr << ": CIRCLE and CIRCLE";
+                                break;
+                            case RECTANGLE:
+                                ofstr << ": CIRCLE and RECTANGLE";
+                                break;
+                            case TRIANGLE:
+                                ofstr << ": CIRCLE and TRIANGLE";
+                                break;
+                        }
+                        break;
+                    case RECTANGLE:
+                        switch(jt->f->figure_type) {
+                            case CIRCLE:
+                                ofstr << ": RECTANGLE and CIRCLE";
+                                break;
+                            case RECTANGLE:
+                                ofstr << ": RECTANGLE and RECTANGLE";
+                                break;
+                            case TRIANGLE:
+                                ofstr << ": RECTANGLE and TRIANGLE";
+                                break;
+                        }
+                        break;
+                    case TRIANGLE:
+                        switch(jt->f->figure_type) {
+                            case CIRCLE:
+                                ofstr << ": TRIANGLE and CIRCLE";
+                                break;
+                            case RECTANGLE:
+                                ofstr << ": TRIANGLE and RECTANGLE";
+                                break;
+                            case TRIANGLE:
+                                ofstr << ": TRIANGLE and TRIANGLE";
+                                break;
+                        }
+                        break;
+                }
+                ofstr << std::endl;
+                Out(it->f, ofstr);
+                Out(jt->f, ofstr);
+                ofstr << "______________________" << std::endl;
+            }
         }
-        buffer = atoi(str);
-        return true;
     }
 
 }

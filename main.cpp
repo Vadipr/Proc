@@ -29,11 +29,11 @@ int main(int argc, char* argv[]) {
     }
     cout << "Program started"<< endl;
     figure_container c{};
-    Init(c);
-    In(c, ifst);
-    Out(c, ofst);
+    init(c);
+    in(c, ifst);
+    out(c, ofst);
     ofst << "Sorted:\n";
-    MultiMethod(c, ofst);
+    multi_method(c, ofst);
     cout << "Program ended"<< endl;
     return 0;
 }

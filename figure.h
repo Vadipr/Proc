@@ -11,7 +11,7 @@ namespace figure_space {
     // Параметры, общие для всех альтернатив:
     // Цвет фигуры (перечислимый тип)
     // {красный, оранжевый, желтый, зеленый, голубой, синий, фиолетовый}
-    enum Color {
+    enum color {
         RED = 0,
         ORANGE = 1,
         YELLOW = 2,
@@ -21,10 +21,10 @@ namespace figure_space {
         PURPLE = 6
     };
 
-    const double PI = 3.1415;
+    const double pi = 3.1415;
 
     // Перечисляемый тип, определяющий тип фигуры
-    enum eFigure {
+    enum e_figure {
         CIRCLE = 1,
         RECTANGLE = 2,
         TRIANGLE = 3
@@ -65,11 +65,11 @@ namespace figure_space {
             figure_triangle ft;
         };
         double density;
-        eFigure figure_type; // Тип объекта
-        Color figure_color; // Цвет
+        e_figure figure_type; // Тип объекта
+        color figure_color; // Цвет
     };
 
-    struct Node {
+    struct node {
         Node *next; // Следующий элемент в списке
         figure *f;
     };
@@ -88,13 +88,13 @@ namespace figure_space {
     /// Объявление функций:
 
     // Инициализация контейнера
-    void Init(figure_container &to_init);
+    void init(figure_container &to_init);
 
     // Очищает список от элементов
-    void Clear(figure_container &cont);
+    void clear(figure_container &cont);
 
     // Добавить элемент в список
-    void Append(figure_container &cont, Node *new_element);
+    void append(figure_container &cont, Node *new_element);
 
     // ЧТЕНИЕ ИЗ ФАЙЛА
     // Требования ко входному файлу:
@@ -103,29 +103,29 @@ namespace figure_space {
     // *характеристики фигуры*
 
     // Чтение в контейнер
-    void In(figure_container &cont, std::ifstream &ifstr);
+    void in(figure_container &cont, std::ifstream &ifstr);
     // Чтение одной абстрактной фигуры
-    figure *In(std::ifstream &ifstr);
+    figure *in(std::ifstream &ifstr);
     // Чтение круга
-    void In(figure_circle &fc, std::ifstream &ifstr);
+    void in(figure_circle &fc, std::ifstream &ifstr);
     // Чтение прямоугольника
-    void In(figure_rectangle &fr, std::ifstream &ifstr);
+    void in(figure_rectangle &fr, std::ifstream &ifstr);
     // Чтение треугольника
-    void In(figure_triangle &ft, std::ifstream &ifstr);
+    void in(figure_triangle &ft, std::ifstream &ifstr);
 
-    bool Comparator(figure *first, figure *second);
+    bool comparator(figure *first, figure *second);
 
-    void Sort(figure_container &cont);
-    double Calculate(figure *f);
-    double Calculate(figure_circle &fc);
-    double Calculate(figure_rectangle &fr);
+    void sort(figure_container &cont);
+    double calculate(figure *f);
+    double calculate(figure_circle &fc);
+    double calculate(figure_rectangle &fr);
     // Запись в файл
-    void Out(figure *f, std::ofstream &ofstr);
-    void Out(figure_circle &fc, std::ofstream &ofstr);
-    void Out(figure_rectangle &fr, std::ofstream &ofstr);
-    void Out(figure_triangle &ft, std::ofstream &ofstr);
-    void Out(figure_container &cont, std::ofstream &ofstr);
-    void MultiMethod(figure_container &cont, std::ofstream &ofstr);
+    void out(figure *f, std::ofstream &ofstr);
+    void out(figure_circle &fc, std::ofstream &ofstr);
+    void out(figure_rectangle &fr, std::ofstream &ofstr);
+    void out(figure_triangle &ft, std::ofstream &ofstr);
+    void out(figure_container &cont, std::ofstream &ofstr);
+    void multi_method(figure_container &cont, std::ofstream &ofstr);
 }
 
 #endif //PROCEDURAL_FIGURE_H

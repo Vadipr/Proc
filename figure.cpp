@@ -6,25 +6,25 @@ namespace figure_space {
     std::string color_strings[8] = {"red", "orange", "yellow", "green", "blue", "sapphire", "purple"};
     const int color_count = 7;
 
-    void In(figure_container &cont, std::ifstream &ifstr) {
+    void in(figure_container &cont, std::ifstream &ifstr) {
         // Чтение до end of file
         while (!ifstr.eof()) {
             // Считываем новый элемент
-            Node * new_node = new Node;
-            new_node->f = In(ifstr);
+            node * new_node = new node;
+            new_node->f = in(ifstr);
             if (new_node->f == nullptr) { // Если произошла ошибка при считывании
                 std::cout << "Can't read file, because it has wrong structure." << std::endl;
                 // Очищаем уже заполненные элементы списка
-                Clear(cont);
+                clear(cont);
                 return;
             }
 
             // Добавляем в список считанный элемент
-            Append(cont, new_node);
+            append(cont, new_node);
         }
     }
 
-    void Append(figure_container &cont, Node *new_element) {
+    void append(figure_container &cont, node *new_element) {
         cont.size++;
         if (cont.begin == nullptr) { // Если список пустой
             cont.begin = cont.end = new_element;
@@ -35,49 +35,49 @@ namespace figure_space {
         new_element->next = nullptr;
     }
 
-    void Clear(figure_container &cont) {
-        Node *it_next = nullptr; // Храним следующий элемент, т.к. будем удалять элементы в цикле
-        for (Node *it = cont.begin; it != nullptr; it = it_next) {
+    void clear(figure_container &cont) {
+        node *it_next = nullptr; // Храним следующий элемент, т.к. будем удалять элементы в цикле
+        for (node *it = cont.begin; it != nullptr; it = it_next) {
             it_next = it->next; // Сохраняем следующий элемент
             delete it; // Удаляем элемент
         }
         cont.begin = cont.end = nullptr;
     }
 
-    void figure_space::Out(figure *f, std::ofstream &ofstr) {
+    void figure_space::out(figure *f, std::ofstream &ofstr) {
         ofstr << color_strings[f->figure_color] << " ";
         ofstr << "(Density = " << f->density << ") ";
-        switch(f->figure_type) { // Относительно типа объекта вызываем Out
-            case eFigure::CIRCLE:
-                Out(f->fc, ofstr);
+        switch(f->figure_type) { // Относительно типа объекта вызываем out
+            case e_figure::CIRCLE:
+                out(f->fc, ofstr);
                 break;
-            case eFigure::RECTANGLE:
-                Out(f->fr, ofstr);
+            case e_figure::RECTANGLE:
+                out(f->fr, ofstr);
                 break;
-            case eFigure::TRIANGLE:
-                Out(f->ft, ofstr);
+            case e_figure::TRIANGLE:
+                out(f->ft, ofstr);
                 break;
         }
     }
 
-    void Out(figure_circle &fc, std::ofstream &ofstr) {
+    void out(figure_circle &fc, std::ofstream &ofstr) {
         ofstr << "circle: ";
         ofstr << "x0 = " << fc.center_x << "; ";
         ofstr << "y0 = " << fc.center_y << "; ";
         ofstr << "radius = " << fc.radius << "; ";
-        ofstr << "parameter = " << Calculate(fc) << ";\n";
+        ofstr << "parameter = " << calculate(fc) << ";\n";
     }
 
-    void Out(figure_rectangle &fr, std::ofstream &ofstr) {
+    void out(figure_rectangle &fr, std::ofstream &ofstr) {
         ofstr << "rectangle: ";
         ofstr << "x1 = " << fr.bottom_x << "; ";
         ofstr << "y1 = " << fr.bottom_y << "; ";
         ofstr << "x2 = " << fr.upper_x << "; ";
         ofstr << "y2 = " << fr.upper_y << "; ";
-        ofstr << "parameter = " << Calculate(fr) << ";\n";
+        ofstr << "parameter = " << calculate(fr) << ";\n";
     }
 
-    void Out(figure_triangle &ft, std::ofstream &ofstr) {
+    void out(figure_triangle &ft, std::ofstream &ofstr) {
         ofstr << "triangle: ";
         ofstr << "x1 = " << ft.x1 << "; ";
         ofstr << "y1 = " << ft.y1 << "; ";
@@ -87,34 +87,34 @@ namespace figure_space {
         ofstr << "y3 = " << ft.y3 << ";\n";
     }
 
-    void Out(figure_container &cont, std::ofstream &ofstr) {
+    void out(figure_container &cont, std::ofstream &ofstr) {
         int index = 0;
         if(cont.begin == nullptr) { // Если пустой контейнер
             ofstr << "Empty container. " << std::endl;
             return;
         }
-        for(Node *it = cont.begin; it != nullptr; it = it->next) {
+        for(node *it = cont.begin; it != nullptr; it = it->next) {
             index++;
             // Вывод номера и цвета
             ofstr << index << ". ";
-            Out(it->f, ofstr);
+            out(it->f, ofstr);
         }
         std::cout << "Successfully printed to file." << std::endl;
     }
 
-    figure *In(std::ifstream &ifstr) {
+    figure *in(std::ifstream &ifstr) {
         figure *res = new figure; // Указатель на объект, который будет сформирован
-        std::string readLine; // Считываемая строка
+        std::string read_line; // Считываемая строка
         char chars[255];
         ifstr.getline(chars, 255);
         // ВВОД ТИПА ФИГУРЫ
-        readLine = std::string(chars); // Переводим в строку
-        if (readLine == "circle") { // Если вводится круг
-            res->figure_type = eFigure::CIRCLE;
-        } else if (readLine == "rectangle") { // Если вводится прямоугольник
-            res->figure_type = eFigure::RECTANGLE;
-        } else if (readLine == "triangle") { // Если вводится треугольник
-            res->figure_type = eFigure::TRIANGLE;
+        read_line = std::string(chars); // Переводим в строку
+        if (read_line == "circle") { // Если вводится круг
+            res->figure_type = e_figure::CIRCLE;
+        } else if (read_line == "rectangle") { // Если вводится прямоугольник
+            res->figure_type = e_figure::RECTANGLE;
+        } else if (read_line == "triangle") { // Если вводится треугольник
+            res->figure_type = e_figure::TRIANGLE;
         } else {
             delete res;
             return nullptr; // Произошла ошибка при вводе
@@ -124,9 +124,9 @@ namespace figure_space {
         }
         // ВВОД ЦВЕТА ФИГУРЫ
         ifstr.getline(chars, 255);
-        readLine = std::string(chars); // Переводим в строку
+        read_line = std::string(chars); // Переводим в строку
         for (int i = 0; i < color_count; i++) {
-            if (readLine == color_strings[i]) { // Если узнали, что за цвет
+            if (read_line == color_strings[i]) { // Если узнали, что за цвет
                 res->figure_color = (Color) i; // Сохраняем цвет
                 break;
             } else if (i + 1 == color_count) { // Если цвет не был распознан
@@ -140,26 +140,26 @@ namespace figure_space {
         res->density = dens;
         // ВВОД ОСТАЛЬНЫХ ХАРАКТЕРИСТИК
         switch (res->figure_type) {
-            case eFigure::CIRCLE:
-                In(res->fc, ifstr);
+            case e_figure::CIRCLE:
+                in(res->fc, ifstr);
                 break;
-            case eFigure::RECTANGLE:
-                In(res->fr, ifstr);
+            case e_figure::RECTANGLE:
+                in(res->fr, ifstr);
                 break;
-            case eFigure::TRIANGLE:
-                In(res->ft, ifstr);
+            case e_figure::TRIANGLE:
+                in(res->ft, ifstr);
                 break;
         }
         return res;
 
     }
 
-    void Init(figure_container &to_init) {
+    void init(figure_container &to_init) {
         // Задаем начальный и последний элементы в нулевой указатель
         to_init.end = to_init.begin = nullptr;
     }
 
-    void In(figure_circle &fc, std::ifstream &ifstr) {
+    void in(figure_circle &fc, std::ifstream &ifstr) {
 
         int _center_x, _center_y;
         double _radius;
@@ -184,7 +184,7 @@ namespace figure_space {
     }
 
 
-    void In(figure_triangle &ft, std::ifstream &ifstr) {
+    void in(figure_triangle &ft, std::ifstream &ifstr) {
         if(ifstr.eof()) {
             return;
         }
@@ -214,7 +214,7 @@ namespace figure_space {
         }
     }
 
-    void In(figure_rectangle &fr, std::ifstream &ifstr) {
+    void in(figure_rectangle &fr, std::ifstream &ifstr) {
         int _bottom_x, _bottom_y;
         int _upper_x, _upper_y;
         if(ifstr.eof()) {
@@ -247,46 +247,46 @@ namespace figure_space {
         }
     }
 
-    double Calculate(figure *f) {
-        switch(f->figure_type) { // Относительно типа объекта вызываем Out
-            case eFigure::CIRCLE:
-                return Calculate(f->fc);
-            case eFigure::RECTANGLE:
-                return Calculate(f->fr);
+    double calculate(figure *f) {
+        switch(f->figure_type) { // Относительно типа объекта вызываем out
+            case e_figure::CIRCLE:
+                return calculate(f->fc);
+            case e_figure::RECTANGLE:
+                return calculate(f->fr);
         }
     }
 
-    double figure_space::Calculate(figure_circle &fc) {
-        return 2*PI*fc.radius;
+    double figure_space::calculate(figure_circle &fc) {
+        return 2*pi*fc.radius;
     }
 
-    double figure_space::Calculate(figure_rectangle &fr) {
+    double figure_space::calculate(figure_rectangle &fr) {
         int width = fr.bottom_x - fr.upper_x;
         int height = fr.upper_y - fr.bottom_y;
         return std::abs(2*width) + std::abs(2*height);
     }
 
-    void Sort(figure_container &cont) {
-        for(Node *it = cont.begin; (it) && (it->next); it = it->next) {
-            for (Node *jt = it->next; jt; jt = jt->next) {
-                if(Comparator(it->f, jt->f)) {
+    void sort(figure_container &cont) {
+        for(node *it = cont.begin; (it) && (it->next); it = it->next) {
+            for (node *jt = it->next; jt; jt = jt->next) {
+                if(comparator(it->f, jt->f)) {
                     figure* temp = it->f;
                     it->f = jt->f;
                     jt->f = temp;
                 }
-                std::cout << Calculate(it->f) << " vs " << Calculate(jt->f) << std::endl;
+                std::cout << calculate(it->f) << " vs " << calculate(jt->f) << std::endl;
             }
         }
     }
 
-    bool Comparator(figure *first, figure *second) {
-        return Calculate(first) < Calculate(second);
+    bool comparator(figure *first, figure *second) {
+        return calculate(first) < calculate(second);
     }
 
-    void MultiMethod(figure_container &cont, std::ofstream &ofstr) {
+    void multi_method(figure_container &cont, std::ofstream &ofstr) {
         ofstr << "Writing multimethod" << std::endl;
-        for(Node *it = cont.begin; (it) && (it->next); it = it->next) {
-            for (Node *jt = cont.begin->next; jt; jt = jt->next) {
+        for(node *it = cont.begin; (it) && (it->next); it = it->next) {
+            for (node *jt = cont.begin->next; jt; jt = jt->next) {
                 switch(it->f->figure_type) {
                     case CIRCLE:
                         switch(jt->f->figure_type) {
@@ -329,8 +329,8 @@ namespace figure_space {
                         break;
                 }
                 ofstr << std::endl;
-                Out(it->f, ofstr);
-                Out(jt->f, ofstr);
+                out(it->f, ofstr);
+                out(jt->f, ofstr);
                 ofstr << "______________________" << std::endl;
             }
         }

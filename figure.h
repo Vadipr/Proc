@@ -107,11 +107,11 @@ namespace figure_space {
     // Чтение одной абстрактной фигуры
     figure *in(std::ifstream &ifstr);
     // Чтение круга
-    void in(figure_circle &fc, std::ifstream &ifstr);
+    bool in(figure_circle &fc, std::ifstream &ifstr);
     // Чтение прямоугольника
-    void in(figure_rectangle &fr, std::ifstream &ifstr);
+    bool in(figure_rectangle &fr, std::ifstream &ifstr);
     // Чтение треугольника
-    void in(figure_triangle &ft, std::ifstream &ifstr);
+    bool in(figure_triangle &ft, std::ifstream &ifstr);
 
     bool comparator(figure *first, figure *second);
 

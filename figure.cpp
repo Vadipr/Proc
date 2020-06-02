@@ -141,13 +141,13 @@ namespace figure_space {
         // ВВОД ОСТАЛЬНЫХ ХАРАКТЕРИСТИК
         switch (res->figure_type) {
             case e_figure::CIRCLE:
-                in(res->fc, ifstr);
+                if(!in(res->fc, ifstr)) return nullptr;
                 break;
             case e_figure::RECTANGLE:
-                in(res->fr, ifstr);
+                if(!in(res->fr, ifstr)) return nullptr;
                 break;
             case e_figure::TRIANGLE:
-                in(res->ft, ifstr);
+                if(!in(res->ft, ifstr)) return nullptr;
                 break;
         }
         return res;
@@ -159,20 +159,20 @@ namespace figure_space {
         to_init.end = to_init.begin = nullptr;
     }
 
-    void in(figure_circle &fc, std::ifstream &ifstr) {
+    bool in(figure_circle &fc, std::ifstream &ifstr) {
 
         int _center_x, _center_y;
         double _radius;
         if(ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> _center_x;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> _center_y;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> _radius;
         fc.center_x = _center_x;
@@ -181,62 +181,64 @@ namespace figure_space {
         if(!ifstr.eof()) { // Считаем переход на новую строку
             ifstr.get();
         }
+        return true;
     }
 
 
-    void in(figure_triangle &ft, std::ifstream &ifstr) {
+    bool in(figure_triangle &ft, std::ifstream &ifstr) {
         if(ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> ft.x1;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> ft.y1;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> ft.x2;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> ft.y2;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> ft.x3;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> ft.y3;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
+        return true;
     }
 
-    void in(figure_rectangle &fr, std::ifstream &ifstr) {
+    bool in(figure_rectangle &fr, std::ifstream &ifstr) {
         int _bottom_x, _bottom_y;
         int _upper_x, _upper_y;
         if(ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> _bottom_x;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         ifstr >> _bottom_y;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
 
         ifstr >> _upper_x;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
 
         ifstr >> _upper_y;
         if(ifstr.fail() || ifstr.eof()) {
-            return;
+            return false;
         }
         fr.bottom_x = _bottom_x;
         fr.bottom_y = _bottom_y;
@@ -245,6 +247,7 @@ namespace figure_space {
         if(!ifstr.eof()) { // Считаем переход на новую строку
             ifstr.get();
         }
+        return true;
     }
 
     double calculate(figure *f) {
